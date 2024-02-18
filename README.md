@@ -167,27 +167,100 @@ nano kafka-rest.properties and add this code changing the arn as necessary and  
  ![alt text](Images/Images_1/image-41.png)
  We can now mount the S3 bucket by passing in the S3 URL and the desired mount name to dbutils.fs.mount(). 
  ![alt text](Images/Images_1/image-42.png)
-
  Read the JSON format dataset from S3 into Databricks using the code cells below:
  ![alt text](Images/Images_1/image-43.png)
  and now create 3 new Dataframes
+ ![alt text](image.png)
+ ![alt text](image-1.png)
+ ![alt text](image-2.png)
 
-![alt text](Images/Images_1/image-45.png)
-![alt text](Images/Images_1/image-46.png)
-![alt text](Images/Images_1/image-47.png)
- 
+ ### Cleaning data
 
- 
- 
- 
- 
- 
+ I used the following codes to clean the databases:
+ #### Clean pin data
+ !![alt text](image-4.png)
+ ### Clean geo data
+ ![alt text](image-5.png)
+ ### Clean user data
+ ![alt text](image-6.png)
 
+ ### Querying data
 
+ #### Find the most popular Pinterest category people post to based on their country?
+ ![alt text](image-7.png)
+ #### Find how many posts each category had between 2018 and 2022?
+ ![alt text](image-8.png)
+ #### Find the user with the most follwers in each country?
+![alt text](image-10.png)
+ #### Find the most popular catgory for different age groups?
+ ![alt text](image-11.png)![alt text](image-12.png)
+ #### Find the median followers per age group?
+ ![alt text](image-13.png)
+ #### Find how many users have joined between 2015 and 2020?
+ ![alt text](image-14.png)
+ #### Find the median follower count of users have joined between 2015 and 2020?
+ ![alt text](image-15.png)
+ #### #Find the median follower count of users that have joined between 2015 and 2020, based on which age group they are part of?
+ ![alt text](image-16.png)![alt text](image-17.png)
 
+ ### Create and upload a DAG to a MWAA environment
+ ![alt text](image-18.png)
+ Navigate to the MWAA console and select your Environment. Once you're on the environment page select Edit.
+ ![alt text](image-19.png)
+ ![alt text](image-20.png)
+ unpause dag
+ ![alt text](image-21.png)
 
+ ### Creating data streams using Kinesis Data Streams 
+ Nagivate to AWS Kinesis
+ ![alt text](image-22.png)
+ Navigate to the Kinesis console, and select the Data Streams section. Choose the Create stream button.
+ Create these streams:
+ - streaming-0abf7f0cd605-pin
+ - streaming-0abf7f0cd605-geo
+ - streaming-0abf7f0cd605-user
+ The process should look like this:
+![alt text](image-23.png)
+![alt text](image-24.png)
+In Kinesis > Data streams
+![alt text](image-25.png)
+Configure an API with Kinesis proxy integration
 
+Under Resource Name, type streams. Leave the rest as default and then click the Create resource button.
+![alt text](image-26.png)
+In the Create method page you will need to define the following:
 
+Select get method type
+
+For Integration type select AWS Service
+For AWS Region choose us-east-1
+For AWS Service select Kinesis,
+For HTTP method select POST (as we will have to invoke Kinesis's ListStreams action)
+For Action Type select User action name
+For Action name type ListStreams
+For Execution role you should copy the ARN of your Kinesis Access Role (created in the previous section)
+![alt text](image-27.png)
+![alt text](image-28.png)
+This will redirect you to the Method Execution page. From here select the Integration request panel, click on the Edit button at the bottom of the page
+
+Find and expand URL request headers parameters and fill in the following
+![alt text](image-29.png)
+Expand Mapping Templates panel and fill in the following
+![alt text](image-30.png)
+Under the streams resource create a new child resource with the Resource name {stream-name}
+Create GET,Post and Delete Methods under these
+Under the {stream-name} resource create a two new child resources with the Resource Name, record and records. For both resources create a PUT method.
+![alt text](image-31.png)
+Deploy the API
+![alt text](image-34.png)
+
+### Send data to kinesis stream
+Update the user_posting_emulation_streaming.py file 
+invoke_url = 'https://kdnbpq3ufb.execute-api.us-east-1.amazonaws.com/Pinetrest/streams/stream-name/record'
+restart the rest proxy 
+![alt text](image-32.png)
+Statues code 200 means everything is working fine 
+![alt text](image-33.png)
 
 
 
