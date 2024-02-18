@@ -267,7 +267,5 @@ Statues code 200 means everything is working fine
 
 ## Usage instructions
 ## File structure of the project
-## License information# Pinterest-data-pipeline
-# Pinterest-data-pipeline
-# Pinterest-data-pipeline
-# Pinterest-data-pipeline
+## License information
+
