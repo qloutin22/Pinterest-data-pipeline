@@ -12,7 +12,7 @@
 ##  Project description
 The Pinterest Data Pipelines Project aims to create a data pipeline similar to pinetrest. The data pipeline enhances the efficiency, scalability, and reliability of data processing infrastructure. As data continues to grow and serve millions of users worldwide, it becomes increasingly crucial to streamline the collection, processing, and analysis of vast amounts of user-generated data to drive product improvements, personalized recommendations, and strategic decision-making.
 ## Diagram of project architecture
-![alt text](image-47.png)
+![alt text](Images/Images_2/image-47.png)
 ## Installation instructions
 ### Create.pem key
  Create a file with a .pem extention 
