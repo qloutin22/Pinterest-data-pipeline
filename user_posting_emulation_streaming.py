@@ -47,8 +47,7 @@ def run_infinite_post_data_loop():
             
             for row in pin_selected_row:
                 pin_result = dict(row._mapping)
-                invoke_url = 'https://kdnbpq3ufb.execute-api.us-east-1.amazonaws.com/Pinetrest/streams/stream-name/record'
-                #To send JSON messages you need to follow this structure
+                invoke_url = 'https://kdnbpq3ufb.execute-api.us-east-1.amazonaws.com/Pinetrest/streams/streaming-0abf7f0cd605-pin/record'
                 payload = json.dumps({
                 "StreamName": "streaming-0abf7f0cd605-pin",
                 "Data": {
@@ -68,7 +67,7 @@ def run_infinite_post_data_loop():
             
             for row in geo_selected_row:
                 geo_result = dict(row._mapping)
-                invoke_url = 'https://kdnbpq3ufb.execute-api.us-east-1.amazonaws.com/Pinetrest/streams/stream-name/record'
+                invoke_url = 'https://kdnbpq3ufb.execute-api.us-east-1.amazonaws.com/Pinetrest/streams/streaming-0abf7f0cd605-geo/record'
                 #To send JSON messages you need to follow this structure
                 payload = json.dumps({
                 "StreamName": "streaming-0abf7f0cd605-geo",
@@ -89,7 +88,7 @@ def run_infinite_post_data_loop():
             
             for row in user_selected_row:
                 user_result = dict(row._mapping)
-                invoke_url = 'https://kdnbpq3ufb.execute-api.us-east-1.amazonaws.com/Pinetrest/streams/stream-name/record'
+                invoke_url = 'https://kdnbpq3ufb.execute-api.us-east-1.amazonaws.com/Pinetrest/streams/streaming-0abf7f0cd605-user/record'
                 #To send JSON messages you need to follow this structure
                 payload = json.dumps({
                 "StreamName": "streaming-0abf7f0cd605-user",

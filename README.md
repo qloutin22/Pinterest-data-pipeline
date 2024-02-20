@@ -1,8 +1,19 @@
 # Pinetrest Data Piplines
 ## Table of Contents
-## A description of the project: what it does, the aim of the project, and what you learned
-## Installation instructions
+1. [Project description](#Project-description)
+2. [Diagram of project architecture ](#Diagram-of-project-architecture)
+3. [Installation instructions](#Installation-instructions)
+4. [Project Code Breakdown](#Project-Code-Breakdown)
+5. [File structure of the project](#File-structure-of-the-project)
+6. [License](#license)
 
+### Project code breakdown
+
+##  Project description
+The Pinterest Data Pipelines Project aims to create a data pipeline similar to pinetrest. The data pipeline enhances the efficiency, scalability, and reliability of data processing infrastructure. As data continues to grow and serve millions of users worldwide, it becomes increasingly crucial to streamline the collection, processing, and analysis of vast amounts of user-generated data to drive product improvements, personalized recommendations, and strategic decision-making.
+## Diagram of project architecture
+![alt text](image-47.png)
+## Installation instructions
 ### Create.pem key
  Create a file with a .pem extention 
  Naviage to the Parameter store 
@@ -16,10 +27,7 @@ This will reveal the content of your key pair.
  Copy its entire value (including the BEGIN and END header) and paste it in the .pem file in VSCode.
 ![alt text](Images/Images_1/image-4.png)
 
-
  Navigate to the EC2 console and identify the instance with your unique UserId. Select this instance, and under the Details section find the Key pair name and make a note of this. Save the previously created file in the VSCode using the following format: Key pair name.pem
-
-
 
 ### Connect to E2C instance on SSH Client 
 Naviagte to EC2>Instances>your instance >Connect an instance.
@@ -170,64 +178,64 @@ nano kafka-rest.properties and add this code changing the arn as necessary and  
  Read the JSON format dataset from S3 into Databricks using the code cells below:
  ![alt text](Images/Images_1/image-43.png)
  and now create 3 new Dataframes
- ![alt text](image.png)
- ![alt text](image-1.png)
- ![alt text](image-2.png)
+ ![alt text](Images/Images_2/image.png)
+ ![alt text](Images/Images_2/image-1.png)
+ ![alt text](Images/Images_2/image-2.png)
 
  ### Cleaning data
 
  I used the following codes to clean the databases:
  #### Clean pin data
- !![alt text](image-4.png)
+ !![alt text](Images/Images_2/image-4.png)
  ### Clean geo data
- ![alt text](image-5.png)
+ ![alt text](Images/Images_2/image-5.png)
  ### Clean user data
- ![alt text](image-6.png)
+ ![alt text](Images/Images_2/image-6.png)
 
  ### Querying data
 
  #### Find the most popular Pinterest category people post to based on their country?
- ![alt text](image-7.png)
+ ![alt text](Images/Images_2/image-7.png)
  #### Find how many posts each category had between 2018 and 2022?
- ![alt text](image-8.png)
+ ![alt text](Images/Images_2/image-8.png)
  #### Find the user with the most follwers in each country?
-![alt text](image-10.png)
+![alt text](Images/Images_2/image-10.png)
  #### Find the most popular catgory for different age groups?
- ![alt text](image-11.png)![alt text](image-12.png)
+ ![alt text](Images/Images_2/image-11.png)![alt text](Images/Images_2/image-12.png)
  #### Find the median followers per age group?
- ![alt text](image-13.png)
+ ![alt text](Images/Images_2/image-13.png)
  #### Find how many users have joined between 2015 and 2020?
- ![alt text](image-14.png)
+ ![alt text](Images/Images_2/image-14.png)
  #### Find the median follower count of users have joined between 2015 and 2020?
- ![alt text](image-15.png)
+ ![alt text](Images/Images_2/image-15.png)
  #### #Find the median follower count of users that have joined between 2015 and 2020, based on which age group they are part of?
- ![alt text](image-16.png)![alt text](image-17.png)
+ ![alt text](Images/Images_2/image-16.png)![alt text](image-17.png)
 
  ### Create and upload a DAG to a MWAA environment
- ![alt text](image-18.png)
+ ![alt text](Images/Images_2/image-18.png)
  Navigate to the MWAA console and select your Environment. Once you're on the environment page select Edit.
- ![alt text](image-19.png)
- ![alt text](image-20.png)
+ ![alt text](Images/Images_2/image-19.png)
+ ![alt text](Images/Images_2/image-20.png)
  unpause dag
- ![alt text](image-21.png)
+ ![alt text](Images/Images_2/image-21.png)
 
  ### Creating data streams using Kinesis Data Streams 
  Nagivate to AWS Kinesis
- ![alt text](image-22.png)
+ ![alt text](Images/Images_2/image-22.png)
  Navigate to the Kinesis console, and select the Data Streams section. Choose the Create stream button.
  Create these streams:
  - streaming-0abf7f0cd605-pin
  - streaming-0abf7f0cd605-geo
  - streaming-0abf7f0cd605-user
  The process should look like this:
-![alt text](image-23.png)
-![alt text](image-24.png)
+![alt text](Images/Images_2/image-23.png)
+![alt text](Images/Images_2/image-24.png)
 In Kinesis > Data streams
-![alt text](image-25.png)
+![alt text](Images/Images_2/image-25.png)
 Configure an API with Kinesis proxy integration
 
 Under Resource Name, type streams. Leave the rest as default and then click the Create resource button.
-![alt text](image-26.png)
+![alt text](Images/Images_2/image-26.png)
 In the Create method page you will need to define the following:
 
 Select get method type
@@ -239,33 +247,67 @@ For HTTP method select POST (as we will have to invoke Kinesis's ListStreams act
 For Action Type select User action name
 For Action name type ListStreams
 For Execution role you should copy the ARN of your Kinesis Access Role (created in the previous section)
-![alt text](image-27.png)
-![alt text](image-28.png)
+![alt text](Images/Images_2/image-27.png)
+![alt text](Images/Images_2/image-28.png)
 This will redirect you to the Method Execution page. From here select the Integration request panel, click on the Edit button at the bottom of the page
 
 Find and expand URL request headers parameters and fill in the following
-![alt text](image-29.png)
+![alt text](Images/Images_2/image-29.png)
 Expand Mapping Templates panel and fill in the following
-![alt text](image-30.png)
+![alt text](Images/Images_2/image-30.png)
 Under the streams resource create a new child resource with the Resource name {stream-name}
 Create GET,Post and Delete Methods under these
 Under the {stream-name} resource create a two new child resources with the Resource Name, record and records. For both resources create a PUT method.
-![alt text](image-31.png)
+![alt text](Images/Images_2/image-31.png)
 Deploy the API
-![alt text](image-34.png)
+![alt text](Images/Images_2/image-34.png)
 
 ### Send data to kinesis stream
 Update the user_posting_emulation_streaming.py file 
 invoke_url = 'https://kdnbpq3ufb.execute-api.us-east-1.amazonaws.com/Pinetrest/streams/stream-name/record'
 restart the rest proxy 
-![alt text](image-32.png)
+![alt text](Images/Images_2/image-32.png)
 Statues code 200 means everything is working fine 
-![alt text](image-33.png)
+![alt text](Images/Images_2/image-33.png)
+Check the Kensis>Data Steams > Data viewer for data
+It should look like this for each data stream
+![alt text](Images/Images_2/image-36.png)
 
+### Read data from Kinesis steams in Databricks
 
+Initializing a Stream
 
-
-## Usage instructions
+Start by setting a Databricks notebook
+![alt text](Images/Images_2/image-37.png)
+Look for the databricks datasets file paths 
+![alt text](Images/Images_2/image-38.png)
+![alt text](Images/Images_2/image-39.png)
+View each data stream by converting it into a table
+![alt text](Images/Images_2/image-42.png)
+![alt text](Images/Images_2/image-43.png)
+![alt text](Images/Images_2/image-44.png)
+![alt text](Images/Images_2/image-45.png)
+![alt text](Images/Images_2/image-46.png)
+## Project code breakdown
+### user_posting_emulation.py 
+The code requires the Kafka REST proxy on the EC2 client to work. It has 3 different for loops for each topic and using the invoke URL from an API in AWS to load data into databricks. The code will infinately print a statues 200 response code if run correctly.It also includes a dictonairy of each data strctucture of each topic.
+### user_posting_emulation_streaming.py
+The code requires the Kafka REST proxy on the EC2 client to work. It uses a for loop similar to the one in  user_posting_emulation.py however all the invoke URL are the same. The difference in these 3 loops is the different Stream names. This enables a constnt stream of data to be created and this data is uploaded to databricks using an API. A statues 200 code will be printed if the data is uploded to AWS Kinesis correctly.
 ## File structure of the project
-## License information
+|
+|-------Images 
+|
+|-------LICENSE 
+|
+|-------README.md
+|
+|-------LICENSE 
+|
+|-------user_posting_emulation_streaming.py
+|
+|-------user_posting_emulation.py 
+
+## License 
+
+Please see License file
 

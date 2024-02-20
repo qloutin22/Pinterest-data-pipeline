@@ -49,12 +49,10 @@ def run_infinite_post_data_loop():
                 pin_result = dict(row._mapping)
                 
                 invoke_url = "https://kdnbpq3ufb.execute-api.us-east-1.amazonaws.com/Pinetrest/topics/0abf7f0cd605.pin"
-                #To send JSON messages you need to follow this structure
+        
                 payload = json.dumps({
                     "records": [
                     {
-                    #Data should be send as pairs of column_name:value, with different columns separated by commas       
-        
                      "value": {'index': pin_result['index'], 'unique_id':pin_result['unique_id'], 'title': pin_result['title'], 'description': pin_result['description'], 'poster_name': pin_result['poster_name'], 'follower_count': pin_result['follower_count'], 'tag_list': pin_result['tag_list'], 'is_image_or_video': pin_result['is_image_or_video'], 'image_src': pin_result['image_src'], 'downloaded': pin_result['downloaded'], 'save_location': pin_result['save_location'], 'category': pin_result['category']}
                      }
                   ]
