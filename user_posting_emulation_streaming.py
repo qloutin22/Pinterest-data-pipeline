@@ -33,6 +33,11 @@ new_connector = AWSDBConnector()
 
 
 def run_infinite_post_data_loop():
+    """The code requires the Kafka REST proxy on the EC2 client to work.
+       It uses a for loop similar to the one in  user_posting_emulation.py however all the invoke URL are the same. 
+       The difference in these 3 loops is the different Stream names. 
+       This enables a constant stream of data to be created and this data is uploaded to data bricks using an API. 
+       A statues 200 code will be printed if the data is uploaded to AWS Kinesis correctly."""
 
     while True:
         sleep(random.randrange(0, 2))

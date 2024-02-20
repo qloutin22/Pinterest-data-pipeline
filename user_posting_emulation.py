@@ -33,6 +33,10 @@ new_connector = AWSDBConnector()
 
 
 def run_infinite_post_data_loop():
+    """The code requires the Kafka REST proxy on the EC2 client to work. 
+    It has 3 different for loops for each topic and using the invoke URL from an API in AWS to load data into data bricks. 
+    The code will infinitely print a statues 200 response code if run correctly. 
+    It also includes a dictionary of each data structure of each topic."""
 
     while True:
         sleep(random.randrange(0, 2))
