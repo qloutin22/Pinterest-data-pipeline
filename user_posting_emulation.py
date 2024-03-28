@@ -8,35 +8,37 @@ import sqlalchemy
 from sqlalchemy import text
 import json
 from datetime import datetime
-
+import yaml
+from yaml.loader import SafeLoader
 
 
 random.seed(100)
 
 
 class AWSDBConnector:
-
-    def __init__(self):
-
-        self.HOST = "pinterestdbreadonly.cq2e8zno855e.eu-west-1.rds.amazonaws.com"
-        self.USER = 'project_user'
-        self.PASSWORD = ':t%;yCY3Yjg'
-        self.DATABASE = 'pinterest_data'
-        self.PORT = 3306
-        
-    def create_db_connector(self):
-        engine = sqlalchemy.create_engine(f"mysql+pymysql://{self.USER}:{self.PASSWORD}@{self.HOST}:{self.PORT}/{self.DATABASE}?charset=utf8mb4")
+   
+   def read_db_creds():
+     with open(r"C:\Users\quann\OneDrive\Desktop\Data Engineering\Projects\Pinterest-data-pipeline\up_creds.yaml", 'r') as file:
+       up_creds = yaml.load(file, Loader = SafeLoader)
+       return up_creds
+    
+   def create_db_connector(up_creds):
+        engine = sqlalchemy.create_engine(f"mysql+pymysql://{up_creds.USER}:{up_creds.PASSWORD}@{up_creds.HOST}:{up_creds.PORT}/{up_creds.DATABASE}?charset=utf8mb4")
         return engine
-
 
 new_connector = AWSDBConnector()
 
+def test(topic_name, data):
+    pass
+
 
 def run_infinite_post_data_loop():
-    """The code requires the Kafka REST proxy on the EC2 client to work. 
+    """
+    The code requires the Kafka REST proxy on the EC2 client to work. 
     It has 3 different for loops for each topic and using the invoke URL from an API in AWS to load data into data bricks. 
     The code will infinitely print a statues 200 response code if run correctly. 
-    It also includes a dictionary of each data structure of each topic."""
+    It also includes a dictionary of each data structure of each topic.
+    """
 
     while True:
         sleep(random.randrange(0, 2))
@@ -74,11 +76,9 @@ def run_infinite_post_data_loop():
                 invoke_url = "https://kdnbpq3ufb.execute-api.us-east-1.amazonaws.com/Pinetrest/topics/0abf7f0cd605.geo"
                 timestamp = datetime.now()
                 timestamp_str = timestamp.isoformat()
-                #To send JSON messages you need to follow this structure
                 payload = json.dumps({
                     "records": [
-                    {
-                    #Data should be send as pairs of column_name:value, with different columns separated by commas       
+                    {     
                      "value": {'ind': geo_result['ind'], 'timestamp': geo_result['timestamp'].isoformat(), 'latitude': geo_result['latitude'], 'longitude':geo_result['longitude'], 'country': geo_result['country']}
                      }
                   ]
@@ -94,11 +94,9 @@ def run_infinite_post_data_loop():
             for row in user_selected_row:
                 user_result = dict(row._mapping)
                 invoke_url = "https://kdnbpq3ufb.execute-api.us-east-1.amazonaws.com/Pinetrest/topics/0abf7f0cd605.user"
-                #To send JSON messages you need to follow this structure
                 payload = json.dumps({
                     "records": [
-                    {
-                    #Data should be send as pairs of column_name:value, with different columns separated by commas       
+                    {      
                      "value": {'ind': user_result['ind'], 'first_name': user_result['first_name'], 'last_name': user_result['last_name'], 'age': user_result['age'], 'date_joined': user_result['date_joined'].isoformat()}
                      }
                   ]
@@ -108,7 +106,6 @@ def run_infinite_post_data_loop():
                 response = requests.request("POST", invoke_url, headers=headers, data=payload)
                 print("user" ,response.status_code)   
             
-            #return pin_result ,geo_result , user_result
             print(pin_result)
             print(geo_result)
             print(user_result)
